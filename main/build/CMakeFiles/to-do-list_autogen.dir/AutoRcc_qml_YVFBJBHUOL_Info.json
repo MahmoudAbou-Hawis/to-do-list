@@ -1,0 +1,30 @@
+{
+	"BUILD_DIR" : "/home/mahmoud/To-Do/main/build/to-do-list_autogen",
+	"CMAKE_BINARY_DIR" : "/home/mahmoud/To-Do/main/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/mahmoud/To-Do/main/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/mahmoud/To-Do/main",
+	"CMAKE_SOURCE_DIR" : "/home/mahmoud/To-Do/main",
+	"INCLUDE_DIR" : "/home/mahmoud/To-Do/main/build/to-do-list_autogen/include",
+	"INPUTS" : 
+	[
+		"/home/mahmoud/To-Do/GUI/src/qml/main.qml",
+		"/home/mahmoud/To-Do/GUI/src/qml/TaskInput/TaskInput.qml",
+		"/home/mahmoud/To-Do/GUI/src/qml/CheckBox/CheckBox.qml",
+		"/home/mahmoud/To-Do/GUI/src/qml/Button/AddButton.qml",
+		"/home/mahmoud/To-Do/GUI/src/assests/images/tick.png",
+		"/home/mahmoud/To-Do/GUI/src/assests/images/approve.png",
+		"/home/mahmoud/To-Do/GUI/src/assests/images/add.png",
+		"/home/mahmoud/To-Do/GUI/src/assests/images/arrow-down.png",
+		"/home/mahmoud/To-Do/GUI/src/assests/images/arrow-up.png"
+	],
+	"LOCK_FILE" : "/home/mahmoud/To-Do/main/build/CMakeFiles/to-do-list_autogen.dir/AutoRcc_qml_YVFBJBHUOL_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "qml" ],
+	"OUTPUT_CHECKSUM" : "YVFBJBHUOL",
+	"OUTPUT_NAME" : "qrc_qml.cpp",
+	"RCC_EXECUTABLE" : "/usr/lib/qt5/bin/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/home/mahmoud/To-Do/main/build/CMakeFiles/to-do-list_autogen.dir/AutoRcc_qml_YVFBJBHUOL_Used.txt",
+	"SOURCE" : "/home/mahmoud/To-Do/GUI/src/qml/qml.qrc",
+	"VERBOSITY" : 0
+}

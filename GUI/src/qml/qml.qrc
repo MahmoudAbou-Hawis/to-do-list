@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../../../GUI/src/qml/main.qml</file>
+        <file>../../../GUI/src/qml/TaskInput/TaskInput.qml</file>
+        <file>../../../GUI/src/qml/CheckBox/CheckBox.qml</file>
+        <file>../../../GUI/src/qml/Button/AddButton.qml</file>
+        <file>../../../GUI/src/assests/images/add.png</file>
+        <file>../../../GUI/src/assests/images/approve.png</file>
+        <file>../../../GUI/src/assests/images/tick.png</file>
+        <file>../../../GUI/src/assests/images/arrow-down.png</file>
+        <file>../../../GUI/src/assests/images/arrow-up.png</file>
+    </qresource>
+</RCC>
