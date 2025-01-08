@@ -19,32 +19,33 @@ set(BERKELEYDB_INC /usr/local/BerkeleyDB.18.1/include)
 set(BERKELEYDB_LIB /usr/local/BerkeleyDB.18.1/lib)
 
 
-set(PROJECT_INC /home/mahmoud/Documents/to-do-list/tasks/src/primitives
-                /home/mahmoud/Documents/to-do-list/tasks/src/persistent_storage
-                /home/mahmoud/Documents/to-do-list/utils/src
-                /home/mahmoud/Documents/to-do-list/tasks/src/containers
-                /home/mahmoud/Documents/to-do-list/GUI/src/gui-initalizer
-                /home/mahmoud/Documents/to-do-list/tasks/src/interfaces
-                /home/mahmoud/Documents/to-do-list/GUI/src/wrappers
-                /home/mahmoud/Documents/to-do-list/GUI/src/utils)
+set(PROJECT_INC
+    ${CMAKE_SOURCE_DIR}/tasks/src/primitives
+    ${CMAKE_SOURCE_DIR}/tasks/src/persistent_storage
+    ${CMAKE_SOURCE_DIR}/utils/src
+    ${CMAKE_SOURCE_DIR}/tasks/src/containers
+    ${CMAKE_SOURCE_DIR}/GUI/src/gui-initializer
+    ${CMAKE_SOURCE_DIR}/tasks/src/interfaces
+    ${CMAKE_SOURCE_DIR}/GUI/src/wrappers
+    ${CMAKE_SOURCE_DIR}/GUI/src/utils
+)
 
 set(PROJECT_SOURCES
-        main.cpp
-        ../GUI/src/qml/qml.qrc
-        ../GUI/src/utils/gui_helper.hpp
-        ../GUI/src/wrappers/taskwrapper.hpp
-        ../GUI/src/wrappers/taskwrapper.cpp
-        ../tasks/src/primitives/task.hpp
-       ../tasks/src/primitives/task.cpp
-       /home/mahmoud/Documents/to-do-list/GUI/src/gui-initalizer/guiinitializer.cpp
-       /home/mahmoud/Documents/to-do-list/GUI/src/wrappers/taskstoragewrapper.cpp
-       /home/mahmoud/Documents/to-do-list/GUI/src/wrappers/taskwrapper.cpp
-       /home/mahmoud/Documents/to-do-list/tasks/src/persistent_storage/taskmarsheller.cpp
-       /home/mahmoud/Documents/to-do-list/tasks/src/primitives/task.cpp
-       /home/mahmoud/Documents/to-do-list/tasks/src/containers/storages.cpp
-       /home/mahmoud/Documents/to-do-list/tasks/src/core-initializer/coreinitializer.cpp
-       /home/mahmoud/Documents/to-do-list/utils/src/dbFactory.cpp
-
+    ${CMAKE_SOURCE_DIR}/main/main.cpp
+    ${CMAKE_SOURCE_DIR}/GUI/src/qml/qml.qrc
+    ${CMAKE_SOURCE_DIR}/GUI/src/utils/gui_helper.hpp
+    ${CMAKE_SOURCE_DIR}/GUI/src/wrappers/taskwrapper.hpp
+    ${CMAKE_SOURCE_DIR}/GUI/src/wrappers/taskwrapper.cpp
+    ${CMAKE_SOURCE_DIR}/tasks/src/primitives/task.hpp
+    ${CMAKE_SOURCE_DIR}/tasks/src/primitives/task.cpp
+    ${CMAKE_SOURCE_DIR}/GUI/src/gui-initalizer/guiinitializer.cpp
+    ${CMAKE_SOURCE_DIR}/GUI/src/wrappers/taskstoragewrapper.cpp
+    ${CMAKE_SOURCE_DIR}/GUI/src/wrappers/taskwrapper.cpp
+    ${CMAKE_SOURCE_DIR}/tasks/src/persistent_storage/taskmarsheller.cpp
+    ${CMAKE_SOURCE_DIR}/tasks/src/primitives/task.cpp
+    ${CMAKE_SOURCE_DIR}/tasks/src/containers/storages.cpp
+    ${CMAKE_SOURCE_DIR}/tasks/src/core-initializer/coreinitializer.cpp
+    ${CMAKE_SOURCE_DIR}/utils/src/dbFactory.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
