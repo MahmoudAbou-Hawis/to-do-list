@@ -1,3 +1,0 @@
-function saveElemnts(model, element)
-{
-}

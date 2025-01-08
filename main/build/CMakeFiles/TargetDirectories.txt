@@ -1,4 +1,0 @@
-/home/mahmoud/To-Do/main/build/CMakeFiles/to-do-list.dir
-/home/mahmoud/To-Do/main/build/CMakeFiles/edit_cache.dir
-/home/mahmoud/To-Do/main/build/CMakeFiles/rebuild_cache.dir
-/home/mahmoud/To-Do/main/build/CMakeFiles/to-do-list_autogen.dir

@@ -9,5 +9,8 @@
         <file>../../../GUI/src/assests/images/tick.png</file>
         <file>../../../GUI/src/assests/images/arrow-down.png</file>
         <file>../../../GUI/src/assests/images/arrow-up.png</file>
+        <file>../../../GUI/src/qml/utils/checkDate.js</file>
+        <file>../../../GUI/src/qml/utils/checkEmail.js</file>
+        <file>../../../GUI/src/qml/utils/checkTime.js</file>
     </qresource>
 </RCC>

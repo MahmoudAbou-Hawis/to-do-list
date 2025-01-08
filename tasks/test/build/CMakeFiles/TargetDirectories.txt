@@ -1,0 +1,5 @@
+/home/mahmoud/Documents/to-do-list/tasks/test/build/CMakeFiles/TaskMarshellerTest.dir
+/home/mahmoud/Documents/to-do-list/tasks/test/build/CMakeFiles/TaskSavingTest.dir
+/home/mahmoud/Documents/to-do-list/tasks/test/build/CMakeFiles/test.dir
+/home/mahmoud/Documents/to-do-list/tasks/test/build/CMakeFiles/edit_cache.dir
+/home/mahmoud/Documents/to-do-list/tasks/test/build/CMakeFiles/rebuild_cache.dir

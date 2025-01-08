@@ -1,0 +1,55 @@
+Start testing: Jan 07 19:44 EET
+----------------------------------------------------------
+1/2 Testing: TaskMarshellerTest
+1/2 Test: TaskMarshellerTest
+Command: "/home/mahmoud/Documents/to-do-list/tasks/test/build/TaskMarshellerTest"
+Directory: /home/mahmoud/Documents/to-do-list/tasks/test/build
+"TaskMarshellerTest" start time: Jan 07 19:44 EET
+Output:
+----------------------------------------------------------
+Running main() from /home/mahmoud/googletest/googletest/src/gtest_main.cc
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TaskMarshellerTest
+[ RUN      ] TaskMarshellerTest.CheckIfTheTaskMarshellerAsExpected
+[       OK ] TaskMarshellerTest.CheckIfTheTaskMarshellerAsExpected (0 ms)
+[----------] 1 test from TaskMarshellerTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"TaskMarshellerTest" end time: Jan 07 19:44 EET
+"TaskMarshellerTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/2 Testing: TaskSavingTest
+2/2 Test: TaskSavingTest
+Command: "/home/mahmoud/Documents/to-do-list/tasks/test/build/TaskSavingTest"
+Directory: /home/mahmoud/Documents/to-do-list/tasks/test/build
+"TaskSavingTest" start time: Jan 07 19:44 EET
+Output:
+----------------------------------------------------------
+Running main() from /home/mahmoud/googletest/googletest/src/gtest_main.cc
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TaskSavingTest
+[ RUN      ] TaskSavingTest.EnsureTheTaskSavedAndRetrived
+[       OK ] TaskSavingTest.EnsureTheTaskSavedAndRetrived (48 ms)
+[----------] 1 test from TaskSavingTest (48 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (48 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"TaskSavingTest" end time: Jan 07 19:44 EET
+"TaskSavingTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jan 07 19:44 EET

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/TaskMarshellerTest.dir/taskmarshellertest.cpp.o CMakeFiles/TaskMarshellerTest.dir/home/mahmoud/Documents/to-do-list/tasks/src/persistent_storage/taskmarsheller.cpp.o CMakeFiles/TaskMarshellerTest.dir/home/mahmoud/Documents/to-do-list/tasks/src/primitives/task.cpp.o -o TaskMarshellerTest  /usr/local/lib/libgtest_main.a /usr/local/lib/libgtest.a 

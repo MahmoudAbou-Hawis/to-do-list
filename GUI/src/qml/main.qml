@@ -4,7 +4,12 @@ import QtQuick.Window 2.2
 
 import "Button"
 import "CheckBox"
-import "TaskInput" 
+import "TaskInput"
+
+import "utils/checkDate.js" as Date
+import "utils/checkEmail.js" as Email
+import "utils/checkTime.js" as Time
+
 
 ApplicationWindow {
     visible: true
@@ -15,17 +20,18 @@ ApplicationWindow {
     ListModel {
         id: nameModel
         objectName: "nameModel"
-        ListElement {
-            name: "Task 1"
-            __checked: false
-            __delete: false
-            textOpacity: 1.0
-            originalIndex: 0
-            notes: ""
-            email: ""
-            date: ""
-            time: ""
-        }
+        // ListElement {
+        //     name: "Task 1"
+        //     __checked: false
+        //     __delete: false
+        //     textOpacity: 1.0
+        //     originalIndex: 0
+        //     notes: ""
+        //     email: ""
+        //     date: ""
+        //     time: ""
+        //     lodded: false
+        // }
     }
 
 
@@ -74,7 +80,8 @@ ApplicationWindow {
                                 notes: element.notes,
                                 date: element.date,
                                 time: element.time,
-                                email: element.email
+                                email: element.email,
+                                lodded:element.lodded
                             };
                             nameModel.append(updatedElement);
                             nameModel.remove(index);
@@ -89,7 +96,9 @@ ApplicationWindow {
                                 notes: element.notes,
                                 date: element.date,
                                 time: element.time,
-                                email: element.email
+                                email: element.email,
+                                lodded:element.lodded
+
                             };
                             nameModel.insert(originalIndex, updatedElement);
                             nameModel.remove(index);
@@ -129,7 +138,8 @@ ApplicationWindow {
                         dateInput.focus = isPressed ? true : false
                         timeInput.focus = isPressed ? true : false
                         emailInput.focus = isPressed ? true : false
-                        
+                        timeText.visible = isPressed ? true : false
+                        dateInternelText.visible = isPressed ? true : false
                     }
                 }
             }
@@ -195,6 +205,14 @@ ApplicationWindow {
 
                                 onTextChanged: {
                                     nameModel.setProperty(index, "email", text);
+                                    var isEmail = Email.checkEmail(text);
+                                    if (isEmail === true) {
+                                        nameModel.setProperty(index, "email", text);
+                                        emailInput.color = "green";
+
+                                    } else {
+                                        emailInput.color = "red";
+                                    }
                                 }
                             }
                         }
@@ -219,9 +237,27 @@ ApplicationWindow {
                                 wrapMode: TextInput.Wrap
                                 horizontalAlignment: TextInput.AlignLeft
                                 verticalAlignment: TextInput.AlignTop
+                                Text
+                                {
+                                    id: dateInternelText
+                                    text: "<b>YYYY-MM-DD</b>"
+                                    visible: false
+                                    opacity: 0.5
+                                    color: "black"
+                                    anchors.left: parent.left
+                                }
 
                                 onTextChanged: {
                                     nameModel.setProperty(index, "date", text);
+                                    dateInternelText.visible = dateInput.text === "" ? true : false;
+                                    var isDate = Date.checkDate(text);
+                                    if (isDate === true) {
+                                        nameModel.setProperty(index, "date", text);
+                                        dateInput.color = "green";
+
+                                    } else {
+                                        dateInput.color = "red";
+                                    }
                                 }
                             }
                         }
@@ -247,8 +283,27 @@ ApplicationWindow {
                                 horizontalAlignment: TextInput.AlignLeft
                                 verticalAlignment: TextInput.AlignTop
 
+                                Text
+                                {
+                                    id: timeText
+                                    text: "<b>HH:MM</b>"
+                                    visible: false
+                                    opacity: 0.5
+                                    color: "black"
+                                    anchors.left: parent.left
+                                }
+
                                 onTextChanged: {
                                     nameModel.setProperty(index, "time", text);
+                                    timeText.visible = timeInput.text === "" ? true : false;
+                                    var isTime = Time.checkTime(time);
+                                    if (isTime === true) {
+                                        nameModel.setProperty(index, "time", text);
+                                        timeInput.color = "green";
+
+                                    } else {
+                                        timeInput.color = "red";
+                                    }
                                 }
                             }
                         }
@@ -274,7 +329,30 @@ ApplicationWindow {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            // Remove the task from the model
+                            for (var i = 0; i < nameModel.count; i++) {
+                                var item = nameModel.get(i);
+                                if (item.originalIndex > index) {
+                                    nameModel.setProperty(i, "originalIndex", item.originalIndex - 1);
+                                }
+                            }
+                        
+
+                            if(nameModel.get(index).lodded === true) {
+  
+                                var task = nameModel.get(index);
+
+                                var RemovedTask = store.makeTask(
+                                                            task.name,
+                                                            task.__checked,
+                                                            task.__delete,
+                                                            task.originalIndex,
+                                                            task.notes,
+                                                            task.email,
+                                                            task.date,
+                                                            task.time
+                                                        );
+                                store.removeTask(RemovedTask)
+                            }
                             nameModel.remove(index);
                         }
                     }
@@ -308,21 +386,34 @@ ApplicationWindow {
         textInputText: ""
         
         handler: function() {
-            /**/
-            if (taskInput.textInputText !== "") {
-                nameModel.append({
-                    name: taskInput.textInputText,
-                    __checked: false,
-                    __delete: false,
-                    textOpacity: 1.0,
-                    originalIndex: nameModel.count,
-                    notes: "",
-                    email: "",
-                    date: "",
-                    time: ""
-                });
+            
+        if (taskInput.textInputText !== "") {
+                var taskExists = false;
+                for (var i = 0; i < nameModel.count; i++) {
+                    if (nameModel.get(i).name === taskInput.textInputText) {
+                        taskExists = true;
+                        break; 
+                    }
+                }
+
+                if (!taskExists) {
+                    nameModel.append({
+                        name: taskInput.textInputText,
+                        __checked: false,
+                        __delete: false,
+                        textOpacity: 1.0,
+                        originalIndex: nameModel.count,
+                        notes: "",
+                        email: "",
+                        date: "",
+                        time: "",
+                        lodded: false
+                    });
+
+                } 
                 taskInput.textInputText = ""; 
             }
+
         }
         Keys.onPressed: {
             if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
@@ -330,6 +421,87 @@ ApplicationWindow {
                     handler();
                 }
             }
+        }
+    }
+Component.onCompleted: {
+    var tasks = store.getAllTasks();
+
+    if (tasks.length > 0) {
+        var uncheckedTasks = [];
+        var checkedTasks = [];
+
+        for (var i = 0; i < tasks.length; i++) {
+            var task = tasks[i];
+            if (task.checked) {
+                checkedTasks.push(task); 
+            } else {
+                uncheckedTasks.push(task);
+            }
+        }
+
+        nameModel.clear();
+
+        for (var i = 0; i < uncheckedTasks.length; i++) {
+            var task = uncheckedTasks[i];
+             nameModel.append({
+                name: task.name,
+                __checked: task.checked,
+                __delete: task.deleted,
+                textOpacity: task.deleted ? 0.5 : 1.0,
+                originalIndex: task.originalIndex,
+                notes: task.notes || "",
+                email: task.email || "",
+                date: task.date || "",
+                time: task.time || "",
+                lodded: true
+            });
+        }
+
+        for (var i = 0; i < checkedTasks.length; i++) {
+            var task = checkedTasks[i];
+            nameModel.append({
+                name: task.name,
+                __checked: task.checked,
+                __delete: task.deleted,
+                textOpacity: task.deleted ? 0.5 : 1.0,
+                originalIndex: task.originalIndex,
+                notes: task.notes || "",
+                email: task.email || "",
+                date: task.date || "",
+                time: task.time || "",
+                lodded: true
+            });
+        }
+    } 
+}
+
+
+        onClosing: {
+        for (var i = 0; i < nameModel.count; i++) {
+            var task = nameModel.get(i);
+
+        var createdTask = store.makeTask(
+                task.name,
+                task.__checked,
+                task.__delete,
+                task.originalIndex,
+                task.notes,
+                task.email,
+                task.date,
+                task.time
+            );
+
+
+            if(task.lodded === false) {        
+                store.addTask(createdTask);
+            }
+
+            else
+            {
+                store.updateTask(createdTask);
+  
+            }
+
         }
     }
 }
