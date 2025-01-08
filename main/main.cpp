@@ -2,22 +2,23 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickView>
+#include "../GUI/src/wrappers/taskwrapper.hpp"
+#include "../GUI/src/gui-initalizer/guiinitializer.hpp"
+#include "../tasks/src/core-initializer/coreinitializer.hpp"
 
 int main(int argc, char *argv[])
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
+
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
 
+    
+    GuiInitializer g(&engine,std::make_shared<CoreInitializer>());
+
+
     const QUrl url(QStringLiteral("qrc:/GUI/src/qml/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
+
     engine.load(url);
 
     return app.exec();
