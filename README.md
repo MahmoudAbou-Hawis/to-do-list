@@ -136,10 +136,10 @@ cd build
 ```
 to-do-list/
 ├── CMakeLists.txt     # CMake configuration file
-├── main.cpp           # Main entry point
-├── headers/           # Header files
-├── src/               # Source files
-├── resources/         # GUI assets & Berkeley DB
+├── main               # Main entry point
+├── GUI/               # GUI source files
+├── tasks/             # tasks source files
+├── utils/             # utils source files
 ├── build/             # Build directory (generated)
 ```
 
