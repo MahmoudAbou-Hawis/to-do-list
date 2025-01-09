@@ -240,7 +240,7 @@ ApplicationWindow {
                                 Text
                                 {
                                     id: dateInternelText
-                                    text: "<b>YYYY-MM-DD</b>"
+                                    text: model.date === "" ? "<b>YYYY-MM-DD</b>" : ""
                                     visible: false
                                     opacity: 0.5
                                     color: "black"
@@ -286,7 +286,7 @@ ApplicationWindow {
                                 Text
                                 {
                                     id: timeText
-                                    text: "<b>HH:MM</b>"
+                                    text: model.time ==="" ? "<b>HH:MM</b>" : ""
                                     visible: false
                                     opacity: 0.5
                                     color: "black"
