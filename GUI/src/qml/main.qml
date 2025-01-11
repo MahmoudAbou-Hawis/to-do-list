@@ -65,12 +65,17 @@ ApplicationWindow {
                     textOpacity: model.textOpacity
 
                     onChecked: {
+
                         var element = nameModel.get(index);
                         var popupText = element.notes;
                         console.log(popupText)
                         var __originalIndex = index;
 
                         if (__checked) {
+                            for(var idx = index + 1  ; idx < nameModel.count ; idx++)
+                            {
+                                nameModel.setProperty(idx, "originalIndex",idx - 1);
+                            }
                             var updatedElement = {
                                 name: element.name,
                                 __checked: __checked,
@@ -86,21 +91,30 @@ ApplicationWindow {
                             nameModel.append(updatedElement);
                             nameModel.remove(index);
                         } else {
+
                             var element = nameModel.get(index);
+                            var indx = 0;
+                            for( var idx = 0; idx < nameModel.count ; idx++)
+                            {
+                                var elem = nameModel.get(idx);
+                                if(elem.__checked === true){
+                                    indx = idx;
+                                    break;
+                                }
+                            }
                             var updatedElement = {
                                 name: element.name,
                                 __checked: __checked,
                                 __delete: false,
                                 textOpacity: 1,
-                                originalIndex: __originalIndex,
+                                originalIndex: element.originalIndex,
                                 notes: element.notes,
                                 date: element.date,
                                 time: element.time,
                                 email: element.email,
                                 lodded:element.lodded
-
                             };
-                            nameModel.insert(originalIndex, updatedElement);
+                            nameModel.insert(indx , updatedElement);
                             nameModel.remove(index);
                         }
                     }
@@ -379,7 +393,8 @@ ApplicationWindow {
 
     TaskInput {
         id: taskInput
-        x: 360
+        anchors.left : listView.left
+        anchors.right : listView.right
         y: Screen.height - 300
         taskInputwidth: 650
         opacity: 0.7888
@@ -397,19 +412,42 @@ ApplicationWindow {
                 }
 
                 if (!taskExists) {
-                    nameModel.append({
-                        name: taskInput.textInputText,
-                        __checked: false,
-                        __delete: false,
-                        textOpacity: 1.0,
-                        originalIndex: nameModel.count,
-                        notes: "",
-                        email: "",
-                        date: "",
-                        time: "",
-                        lodded: false
-                    });
-
+                    var isInserted = false;
+                    for(var idx = 0 ; idx < nameModel.count ;idx++ )
+                    {
+                        var TaskInfo = nameModel.get(idx);
+                        if(TaskInfo.__checked === true && isInserted === false)
+                        {
+                                nameModel.insert(idx,{
+                                name: taskInput.textInputText,
+                                __checked: false,
+                                __delete: false,
+                                textOpacity: 1.0,
+                                originalIndex: nameModel.count,
+                                notes: "",
+                                email: "",
+                                date: "",
+                                time: "",
+                                lodded: false
+                            });
+                            isInserted = true;
+                        }
+                    }
+                    if(!isInserted)
+                    {
+                        nameModel.append({
+                                name: taskInput.textInputText,
+                                __checked: false,
+                                __delete: false,
+                                textOpacity: 1.0,
+                                originalIndex: nameModel.count,
+                                notes: "",
+                                email: "",
+                                date: "",
+                                time: "",
+                                lodded: false
+                            });
+                    }
                 } 
                 taskInput.textInputText = ""; 
             }
