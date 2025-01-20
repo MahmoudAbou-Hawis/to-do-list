@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/URIBuilderTest.dir/uribuildertest.cpp.o CMakeFiles/URIBuilderTest.dir/home/mahmoud/Documents/to-do-list/curl-wrapper/src/uri.cpp.o CMakeFiles/URIBuilderTest.dir/home/mahmoud/Documents/to-do-list/curl-wrapper/src/uribuilder.cpp.o -o URIBuilderTest  /usr/lib/x86_64-linux-gnu/libcurl.so /usr/local/lib/libgtest_main.a /usr/local/lib/libgtest.a 
