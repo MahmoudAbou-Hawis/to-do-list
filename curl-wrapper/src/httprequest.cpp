@@ -66,3 +66,27 @@ std::tuple<HttpCode, std::string> HttpRequest::post(const std::string &uri,
     auto [curl,headerHandler] =  curlFactory::make_post_curl(body,headers);
     return do_request(uri,curl);
 }
+
+std::tuple<HttpCode, std::string> HttpRequest::put(const std::string &uri, const std::string &body) const
+{
+    auto [curl,headerHandler] =  curlFactory::make_put_curl(body);
+    return do_request(uri,curl);
+}
+
+std::tuple<HttpCode, std::string> HttpRequest::put(const std::string &uri, const std::string &body, std::initializer_list<HttpHeader> headers) const
+{
+    auto [curl,headerHandler] =  curlFactory::make_put_curl(body,headers);
+    return do_request(uri,curl);
+}
+
+std::tuple<HttpCode, std::string> HttpRequest::del(const std::string &uri) const
+{
+    auto [curl,headerHandler] =  curlFactory::make_delete_curl();
+    return do_request(uri,curl);
+}
+
+std::tuple<HttpCode, std::string> HttpRequest::del(const std::string &uri, std::initializer_list<HttpHeader> headers) const
+{
+    auto [curl,headerHandler] =  curlFactory::make_delete_curl(headers);
+    return do_request(uri,curl);
+}

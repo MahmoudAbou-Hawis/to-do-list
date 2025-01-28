@@ -19,8 +19,10 @@ class curlFactory
 private:
     curlFactory();
 public:
-    static std::pair<CurlHandler,HeaderHandler> make_get_curl(std::initializer_list<HttpHeader> headers = {}) ;
+    static std::pair<CurlHandler,HeaderHandler>  make_get_curl(std::initializer_list<HttpHeader> headers = {}) ;
     static std::pair<CurlHandler,HeaderHandler>  make_post_curl(const std::string &body , std::initializer_list<HttpHeader> headers ={}) ;
+    static std::pair<CurlHandler,HeaderHandler>  make_put_curl(const std::string &body , std::initializer_list<HttpHeader> headers ={}) ;
+    static std::pair<CurlHandler,HeaderHandler>  make_delete_curl(std::initializer_list<HttpHeader> headers ={}) ;
 };
 
 

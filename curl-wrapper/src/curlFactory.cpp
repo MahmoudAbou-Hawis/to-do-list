@@ -1,6 +1,7 @@
 #include "curlFactory.hpp"
 #include "curlexceptions.hpp"
 #include <vector>
+#include <string.h>
 
 
 void add_headers_to_request(HeaderHandler& handler,
@@ -25,7 +26,7 @@ void add_headers_to_request(HeaderHandler& handler,
 
 }
 
-size_t read_curl_data(char* contents,
+static size_t read_curl_data(char* contents,
                       size_t size,
                       size_t nmemb,
                       std::string* s) {
@@ -33,6 +34,16 @@ size_t read_curl_data(char* contents,
   s->append(contents, newLength);
   return newLength;
 }
+
+static size_t read_cb(char *ptr, size_t size, size_t nmemb, std::string *userdata)
+{
+    size_t newLength = size * nmemb;
+    size_t dataToCopySize = (userdata->size() < newLength) ? userdata->size() : newLength;
+    memcpy(ptr,userdata->c_str(),dataToCopySize);
+    userdata->clear();
+    return dataToCopySize;
+}
+
 
 CurlHandler make_curl()
 {
@@ -75,6 +86,35 @@ std::pair<CurlHandler,HeaderHandler>  curlFactory::make_post_curl(const std::str
 {
     auto curl = make_curl();
     curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDS, body.c_str());
+    HeaderHandler headersHandler(nullptr, curl_slist_free_all);
+    if(headers.size() != 0)
+    {
+        add_headers_to_request(headersHandler, headers);
+        curl_easy_setopt(curl.get(), CURLOPT_HTTPHEADER, headersHandler.get());
+    }
+    return std::make_pair(std::move(curl),std::move(headersHandler));
+}
+
+std::pair<CurlHandler, HeaderHandler> curlFactory::make_put_curl(const std::string &body, 
+                                                                 std::initializer_list<HttpHeader> headers)
+{
+    auto curl = make_curl();
+    curl_easy_setopt(curl.get(), CURLOPT_READFUNCTION, read_cb);
+    curl_easy_setopt(curl.get(), CURLOPT_PUT, 1L);
+    curl_easy_setopt(curl.get(), CURLOPT_READDATA, &body);
+    HeaderHandler headersHandler(nullptr, curl_slist_free_all);
+    if(headers.size() != 0)
+    {
+        add_headers_to_request(headersHandler, headers);
+        curl_easy_setopt(curl.get(), CURLOPT_HTTPHEADER, headersHandler.get());
+    }
+    return std::make_pair(std::move(curl),std::move(headersHandler));
+}
+
+std::pair<CurlHandler, HeaderHandler> curlFactory::make_delete_curl(std::initializer_list<HttpHeader> headers)
+{
+    auto curl = make_curl();
+    curl_easy_setopt(curl.get(), CURLOPT_CUSTOMREQUEST, "DELETE");
     HeaderHandler headersHandler(nullptr, curl_slist_free_all);
     if(headers.size() != 0)
     {

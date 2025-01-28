@@ -21,6 +21,19 @@ public:
         const std::string &uri,
         const std::string &body,
         std::initializer_list<HttpHeader> headers) const;
+
+    std::tuple<HttpCode, std::string> put(const std::string &uri,
+                                           const std::string &body) const;
+    std::tuple<HttpCode, std::string> put(
+        const std::string &uri,
+        const std::string &body,
+        std::initializer_list<HttpHeader> headers) const;
+
+        std::tuple<HttpCode, std::string> del(const std::string &uri) const;
+    std::tuple<HttpCode, std::string> del(
+        const std::string &uri,
+        std::initializer_list<HttpHeader> headers) const;
+
 };
 
 #endif
