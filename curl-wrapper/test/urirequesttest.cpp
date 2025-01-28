@@ -88,3 +88,58 @@ TEST(HttpClientTest, PostRequestWithHeaders) {
     EXPECT_EQ(jsonResponse["body"], "bar");
     EXPECT_EQ(jsonResponse["userId"], 1);
 }
+
+
+
+TEST(HttpClientTest, PutRequestWithoutHeaders)
+{
+    UriBuilder builder("http://localhost:3000");
+    builder.addPath("cources").addPath("1");
+
+    HttpRequest request;
+    std::string body = R"({"courseName": "TestPassed", "description": "PostRequestDone"})";
+
+    auto  [statusCode, response] = request.put(builder.uri(),body);
+
+    std::cout << response << '\n';
+    ASSERT_EQ(static_cast<int>(statusCode),200);
+
+
+    auto jsonResponse = nlohmann::json::parse(response);
+    EXPECT_EQ(jsonResponse["courseName"], "TestPassed");
+    EXPECT_EQ(jsonResponse["description"], "PostRequestDone");
+    EXPECT_EQ(jsonResponse["id"], "1");
+
+}
+
+
+TEST(HttpClientTest, PutRequestWithHeaders)
+{
+    UriBuilder builder("http://localhost:3000");
+    builder.addPath("cources").addPath("1");
+
+    HttpRequest request;
+    std::string body = R"({"courseName": "TestPassedWithHeaders", "description": "PostRequestDone"})";
+    HttpHeader myHeader = {"Content-Type", "application/json"};
+
+    auto  [statusCode, response] = request.put(builder.uri(),body,{myHeader});
+
+    std::cout << response << '\n';
+    ASSERT_EQ(static_cast<int>(statusCode),200);
+
+
+    auto jsonResponse = nlohmann::json::parse(response);
+    EXPECT_EQ(jsonResponse["courseName"], "TestPassedWithHeaders");
+    EXPECT_EQ(jsonResponse["description"], "PostRequestDone");
+    EXPECT_EQ(jsonResponse["id"], "1");
+}
+
+
+TEST(HttpClientTest, DeleteRequest)
+{
+    UriBuilder builder("http://localhost:3000");
+    builder.addPath("cources").addPath("1");
+    HttpRequest request;
+    auto  [statusCode, response] = request.del(builder.uri());
+    ASSERT_EQ(static_cast<int>(statusCode),200);
+}

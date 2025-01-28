@@ -33,3 +33,5 @@ TEST(UriBuilderTest, TestTheReturnWithtPathandWithQueries)
     ASSERT_EQ(builder.uri(),"https://www.google.com/programming%20courses?query1=query%20value&query2=query2%20value");
 }
 
+
+
