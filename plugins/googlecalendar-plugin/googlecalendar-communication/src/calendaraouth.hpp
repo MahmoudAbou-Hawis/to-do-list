@@ -21,15 +21,17 @@ public:
                std::string refreshToken);
 
 public:
-    void accessToken(const std::string& userCode,std::string &port) ;
-    void refreshToken(const std::string& userCode);
+    void accessToken() ;
+    void refreshToken();
     std::pair<std::string, std::string> getAuthTocken() const;
-    std::string CalendarOauth::getUserUrl(std::string &port) const;
     bool isExpired() const;
     std::string getRefreshToken() const;
+    void authenticate();
+
+private: 
+    std::string getUserUrl() const;
 
 private:
-
   std::string mUserCode;
   std::string mAccessToken;
   std::string mRefreshToken;
@@ -37,7 +39,9 @@ private:
   std::string mClientId;
   std::string mClientSecret;
   std::string mRedirectUri;
-
+  std::string mAuthenticateCode;
+  std::string mPort;
+  
   std::chrono::system_clock::time_point mExpiresAt;
   HttpRequest mRequest;
   mutable std::mutex mMutex;

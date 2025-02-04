@@ -3,11 +3,78 @@
 #include "uribuilder.hpp"
 #include <spdlog/spdlog.h>
 #include "httprequest.hpp"
+#include <boost/asio.hpp>
+#include <iostream>
+#include <memory>
+#include <spdlog/sinks/rotating_file_sink.h>
+
+using Socket   = std::unique_ptr<boost::asio::ip::tcp::socket>;
+using Acceptor = std::unique_ptr<boost::asio::ip::tcp::acceptor>;
+using IoServicePtr = std::shared_ptr<boost::asio::io_service>;
+
+
+
+
+int get_free_port()
+{
+    using namespace boost::asio;
+    io_service io;
+    ip::tcp::acceptor acceptor(io, ip::tcp::endpoint(ip::tcp::v4(), 0));
+    return acceptor.local_endpoint().port();
+}
+
+
+std::pair<Socket,Acceptor> make_socket(IoServicePtr io,int port)
+{
+    using namespace boost::asio;
+    return std::make_pair(
+        std::make_unique<ip::tcp::socket>(*io),
+        std::make_unique<ip::tcp::acceptor>(*io, ip::tcp::endpoint(ip::tcp::v4(), port)));
+}
+
+
+std::string getGoogleAouthRespose(Socket soc , Acceptor acc)
+{
+    using namespace boost::asio;
+    acc->accept(*soc);
+    char data[1024];
+    soc->read_some(buffer(data));
+    boost::asio::write(*soc, boost::asio::buffer("The process was completed successfully. go to app") );
+    soc->shutdown(socket_base::shutdown_type::shutdown_both);
+    return std::string(data);
+}
+
+
+std::string getAouthCode(std::string &response)
+{
+    std::string key = "";
+    bool eq = false;
+    for(auto &i : response)
+    {
+        if(i == '&') break;
+        if(eq) key += i;
+        if(i == '=') eq = true;
+    }
+    return key;
+}
+
+
+
+std::string get_platform_command()
+{
+    #ifdef _WIN32
+               return "start ";
+    #elif __linux__
+            return "xdg-open ";
+    #endif
+}
 
 CalendarOauth::CalendarOauth(std::string clientId, std::string clientSecret,
                              std::string redirectUri) : mClientId(std::move(clientId)),
                                                         mClientSecret(std::move(clientSecret)), mRedirectUri(std::move(redirectUri))
 {
+      spdlog::rotating_logger_mt("calendar_logger", "calendar_logger", 1048576 * 5,
+                             3);
 }
 CalendarOauth::CalendarOauth(std::string clientId, std::string clientSecret,
                              std::string redirectUri, std::string refreshToken) : mClientId(std::move(clientId)), mClientSecret(std::move(clientSecret)),
@@ -15,14 +82,14 @@ CalendarOauth::CalendarOauth(std::string clientId, std::string clientSecret,
 {
 }
 
-void CalendarOauth::accessToken(const std::string &userCode, std::string &port)
+
+void CalendarOauth::accessToken()
 {
     UriBuilder builder("");
-    std::string usercode = userCode;
-    builder.addQuery("code", usercode)
+    builder.addQuery("code", mAuthenticateCode)
         .addQuery("client_id", mClientId)
         .addQuery("client_secret", mClientSecret)
-        .addQuery("redirect_uri", REDIRECT_URL + port)
+        .addQuery("redirect_uri", REDIRECT_URL + mPort)
         .addQuery("grant_type", "authorization_code");
 
     HttpRequest mRequest;
@@ -49,7 +116,7 @@ void CalendarOauth::accessToken(const std::string &userCode, std::string &port)
                  std::chrono::seconds(body.at("expires_in"));
 }
 
-void CalendarOauth::refreshToken(const std::string &userCode)
+void CalendarOauth::refreshToken()
 {
     UriBuilder builder("");
     builder.addQuery("refresh_token", mRefreshToken)
@@ -89,11 +156,11 @@ bool CalendarOauth::isExpired() const
     return std::chrono::system_clock::now() >= mExpiresAt;
 }
 
-std::string CalendarOauth::getUserUrl(std::string &port) const
+std::string CalendarOauth::getUserUrl() const
 {
     UriBuilder builder("https://accounts.google.com/o/oauth2/v2/auth");
     builder.addQuery("client_id", mClientId)
-        .addQuery("redirect_uri", REDIRECT_URL + port)
+        .addQuery("redirect_uri", REDIRECT_URL + mPort)
         .addQuery("response_type", "code")
         .addQuery("scope", "https://www.googleapis.com/auth/calendar")
         .addQuery("access_type", "offline")
@@ -105,4 +172,18 @@ std::string CalendarOauth::getRefreshToken() const
 {
     [[maybe_unused]] std::lock_guard<std::mutex> guard(mMutex);
     return mRefreshToken;
+}
+
+void CalendarOauth::authenticate()
+{
+    int port = get_free_port();
+    mPort = std::to_string(port);
+    IoServicePtr io = std::make_shared<boost::asio::io_service>();
+    auto [soc , acc] = make_socket(io,port);
+    std::string command  = get_platform_command();
+    std::string auth_url = getUserUrl();
+    command.append("'").append(auth_url).append("'");
+    std::system(command.c_str());
+    std::string response = getGoogleAouthRespose(std::move(soc),std::move(acc));
+    mAuthenticateCode = getAouthCode(response);
 }

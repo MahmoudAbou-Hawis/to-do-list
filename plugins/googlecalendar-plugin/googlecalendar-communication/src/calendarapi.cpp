@@ -2,6 +2,7 @@
 #include <nlohmann/json.hpp>
 #include "uribuilder.hpp"
 #include <spdlog/spdlog.h>
+#include <iostream>
 
 const std::string api = "https://www.googleapis.com/calendar/v3/calendars";
 
@@ -10,7 +11,7 @@ nlohmann::json make_event(const Event &eventDetails)
     nlohmann::json event;
     event["summary"]     = eventDetails.eventName;
     event["description"] = eventDetails.eventDescription;
-    event["start"]["dateTime"] = eventDetails.eventName;
+    event["start"]["dateTime"] = eventDetails.startTime;
     event["start"]["timeZone"] = "Africa/Cairo";
     event["end"]["dateTime"] = eventDetails.endTime;
     event["end"]["timeZone"] = "Africa/Cairo";
@@ -22,15 +23,16 @@ nlohmann::json make_event(const Event &eventDetails)
 
 
 
-std::string CalenderApi::addEvent(const Event &event, const std::string &accessToken)
+std::string CalendarApi::addEvent(const Event &event, const std::string &accessToken)
 {
     auto eventJson = make_event(event);
+    std::cout << eventJson;
     UriBuilder apibuilder(api);
     apibuilder.addPath("primary").addPath("events");
     auto [statuscode , response ] = mRequest.post(apibuilder.uri(),eventJson.dump(),
         {{"Content-Type", "application/json"},
          {"Authorization", "Bearer " + accessToken}});
-    if(statuscode != HttpCode::CREATED)
+    if(statuscode != HttpCode::OK)
     {
         auto logger = spdlog::get("calendar_logger");
         logger->error("Failed to set the event with response: {}, code: {}",
@@ -40,7 +42,7 @@ std::string CalenderApi::addEvent(const Event &event, const std::string &accessT
     return nlohmann::json::parse(response)["id"];
 }
 
-void CalenderApi::deleteEvent(const std::string &eventId, const std::string &accessToken)
+void CalendarApi::deleteEvent(const std::string &eventId, const std::string &accessToken)
 {
     UriBuilder apibuilder(api);
     apibuilder.addPath("primary").addPath("events").addPath(eventId);
@@ -55,13 +57,13 @@ void CalenderApi::deleteEvent(const std::string &eventId, const std::string &acc
     }
 }
 
-void CalenderApi::updateEvent(const Event &event, const std::string &accessToken,
+void CalendarApi::updateEvent(const Event &event, const std::string &accessToken,
                               const std::string &eventId)
 {
     auto eventJson = make_event(event);
     UriBuilder apibuilder(api);
     apibuilder.addPath("primary").addPath("events").addPath(eventId);
-    auto [statuscode , response ] = mRequest.post(apibuilder.uri(),eventJson.dump(),
+    auto [statuscode , response ] = mRequest.put(apibuilder.uri(),eventJson.dump(),
         {{"Content-Type", "application/json"},
          {"Authorization", "Bearer " + accessToken}});
     if(statuscode != HttpCode::OK)

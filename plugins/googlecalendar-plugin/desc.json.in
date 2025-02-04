@@ -1,0 +1,15 @@
+{
+    "name": "GoogleCalender",
+    "descripton": "Plugin allows to add events, delete and update the ",
+    "root-module": "$<TARGET_FILE_NAME:googleCalendar-plugin>",
+    "version":{
+        "major": 1,
+        "minor": 0,
+        "revision": 0
+    },
+    "api-version":{
+        "major": @PLUGIN_API_VERSION_MAJOR@,
+        "minor": @PLUGIN_API_VERSION_MINOR@,
+        "revision": @PLUGIN_API_VERSION_REVISION@
+    }
+}

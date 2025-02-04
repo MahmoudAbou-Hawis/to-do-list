@@ -13,13 +13,13 @@ struct Event
     std::string eventDescription;
     std::string startTime;
     std::string endTime;
-    std::initializer_list<std::string> attendees;
+    std::vector<std::string> attendees;
 };
 
-class CalenderApi
+class CalendarApi
 {
     public:
-       explicit CalenderApi(){};
+       explicit CalendarApi(){};
 
     public:
         std::string addEvent(const Event &event, const std::string &accessToken);
