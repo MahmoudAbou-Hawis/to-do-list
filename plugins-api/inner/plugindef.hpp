@@ -1,7 +1,7 @@
 #ifndef PLUGININNERDEFS_H
 #define PLUGININNERDEFS_H
 
-#include "plugins-api/export-definition.hpp"
+#include "export/export-definition.hpp"
 
 class PluginFacade;
 
