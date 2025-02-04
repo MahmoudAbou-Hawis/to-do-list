@@ -5,6 +5,6 @@
 
 class PluginFacade;
 
-extern "C" EXPORTED PluginFacade* get_secure_dialogues_plugin_facade();
+extern "C" EXPORTED PluginFacade* get_to_do_plugin_facade();
 
 #endif  // PLUGININNERDEFS_H

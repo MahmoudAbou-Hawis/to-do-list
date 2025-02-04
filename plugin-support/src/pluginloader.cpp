@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include "inner/plugindef.hpp"
 
+
 std::optional<nlohmann::json> isValid(const std::string& path)
 {
     try
