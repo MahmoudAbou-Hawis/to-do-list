@@ -2,6 +2,7 @@
 #include "pluginhcommunicatorwrapper.hpp"
 #include "supportfunctions.hpp"
 #include <memory>
+#include <iostream>
 
 plugin_support::PluginInterface::PluginInterface(PluginFacade *facade) : mFacade(facade)
 {

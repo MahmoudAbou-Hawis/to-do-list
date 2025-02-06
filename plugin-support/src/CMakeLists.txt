@@ -36,3 +36,7 @@ set_property(TARGET plugins-support PROPERTY POSITION_INDEPENDENT_CODE ON)
 get_target_property(PLUGIN_API_SOURCE_DIR plugin-api SOURCE_DIR)
 
 install(FILES  ${PLUGIN_API_SOURCE_DIR}/plugin.schema.json DESTINATION ".")
+
+
+add_library(dynalo-headers INTERFACE)
+target_include_directories(dynalo-headers INTERFACE /usr/local/include/dynalo)

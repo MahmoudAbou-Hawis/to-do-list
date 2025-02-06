@@ -7,6 +7,7 @@
 #include <optional>
 #include <stdexcept>
 #include "inner/plugindef.hpp"
+#include <iostream>
 
 
 std::optional<nlohmann::json> isValid(const std::string& path)
@@ -34,7 +35,6 @@ std::shared_ptr<plugin_support::PluginInterface>
 plugin_support::plugin_loader(std::string schema_path, 
                               std::string plugin_path)
 {
-  using namespace boost::filesystem;
   using nlohmann::json;
   
   auto desc = isValid(schema_path);
@@ -47,14 +47,13 @@ plugin_support::plugin_loader(std::string schema_path,
         {
             dynalo::library lib(plugin_path);
             auto func = lib.get_function<decltype(get_to_do_plugin_facade)>("get_to_do_plugin_facade");
-            std::make_shared<plugin_support::PluginInterface>(func());
+            return std::make_shared<plugin_support::PluginInterface>(func());
         }   
         catch(std::exception& ex)
         {
-            spdlog::get("root_logger")
-                ->warn("Failed to load plugin in path {} with error {}",
-                        plugin_path,
-                        ex.what());
+           spdlog::get("root_logger")->warn("Failed to load plugin in path {} with error {}",
+                       plugin_path,
+                       ex.what());
         }
    }
    return std::shared_ptr<plugin_support::PluginInterface>();;
