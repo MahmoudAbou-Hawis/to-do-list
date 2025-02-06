@@ -10,6 +10,11 @@ void Task::notes(std::string notes)
     mNotes = std::move(notes);
 }
 
+void Task::email(std::string email)
+{
+    mEmail = std::move(email);
+}
+
 void Task::date(std::string date)
 {
     mDate = std::move(date);
@@ -33,6 +38,11 @@ void Task::status(bool status)
 void Task::completed(bool completed)
 {
     mCompleted = completed;
+}
+
+void Task::id(std::string id)
+{
+    mId = id;
 }
 
 std::string_view Task::name() const noexcept
@@ -68,6 +78,11 @@ bool Task::status() const noexcept
 bool Task::completed() const noexcept
 {
     return mCompleted;
+}
+
+std::string_view Task::id() const noexcept
+{
+    return static_cast<std::string_view>(mId);
 }
 
 std::string_view Task::email() const noexcept

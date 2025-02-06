@@ -11,7 +11,7 @@ class Task {
                     class = typename std::enable_if<
                     std::is_constructible<std::string, S>::value>::type>
         Task(S &&name, S &&notes, S &&email, S &&date, S &&time, int originalIndex, 
-                bool status, bool completed);
+                bool status, bool completed, S &&id);
 
         Task() =default;
 
@@ -24,6 +24,7 @@ class Task {
         void originalIndex(int originalIndex);
         void status(bool status);
         void completed(bool completed);
+        void id(std::string id);
 
     public:
         std::string_view name() const noexcept;
@@ -34,13 +35,14 @@ class Task {
         int originalIndex() const noexcept;
         bool status() const noexcept;
         bool completed() const noexcept;
-
+        std::string_view id() const noexcept;
     private:
         std::string mName;
         std::string mNotes;
         std::string mEmail;
         std::string mDate;
         std::string mTime;
+        std::string mId;
         int mOriginalIndex;
         bool mCompleted;
         bool mStatus;
@@ -48,7 +50,7 @@ class Task {
 
 template <typename S, class>
 Task::Task(S &&name, S &&notes, S &&email, S &&date, S &&time, int originalIndex, 
-        bool status, bool completed) :
+        bool status, bool completed, S &&id) :
     mName(std::forward<S>(name)),
     mNotes(std::forward<S>(notes)),
     mEmail(std::forward<S>(email)),
@@ -56,7 +58,8 @@ Task::Task(S &&name, S &&notes, S &&email, S &&date, S &&time, int originalIndex
     mTime(std::forward<S>(time)),
     mOriginalIndex(originalIndex),
     mStatus(status),
-    mCompleted(completed)
+    mCompleted(completed),
+    mId(std::forward<S>(id))
 {
 
 }

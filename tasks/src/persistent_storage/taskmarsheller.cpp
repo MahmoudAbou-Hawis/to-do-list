@@ -4,7 +4,7 @@
 
 void TaskMarshaller::restore(Task &elem, const void *src)
 {
-    std::string date,email,notes,time,name;
+    std::string date,email,notes,time,name,id;
     bool completed,status;
     int original;
     src = restore_simple_type(completed,src);
@@ -15,8 +15,9 @@ void TaskMarshaller::restore(Task &elem, const void *src)
     src = restore_str(name,src);
     src = restore_str(notes,src);
     src = restore_str(time,src);
+    src = restore_str(id,src);
     elem =  Task(name, notes, email, date, time, original, 
-                status,  completed);
+                status,  completed,id);
 }
 
 void TaskMarshaller::store(void *dest, const Task &elem)
@@ -29,6 +30,7 @@ void TaskMarshaller::store(void *dest, const Task &elem)
     dest = save_str(elem.name(),dest);
     dest = save_str(elem.notes(),dest);
     dest = save_str(elem.time(),dest);
+    dest = save_str(elem.id(),dest);
 }
 
 uint32_t TaskMarshaller::size(const Task &element)
@@ -42,6 +44,6 @@ uint32_t TaskMarshaller::size(const Task &element)
     size += sizeof(element.completed());
     size += sizeof(element.originalIndex());
     size += sizeof(element.status());
-
+    size += sizeof(std::string::size_type) + element.id().length();
     return size;
 }

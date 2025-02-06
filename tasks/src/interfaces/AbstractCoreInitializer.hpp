@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "storages.hpp"
+#include "abstractedCommunicationadabter.hpp"
 
 
 class AbstractCoreInitializer {
@@ -13,7 +14,7 @@ class AbstractCoreInitializer {
  public:
     virtual void initDatabases() = 0;
     virtual std::shared_ptr<TaskStorage> getTaskStorage() const = 0;
-
+    virtual std::shared_ptr<AbstractedCommunicatorAdapter> getPluginAdapter() const = 0;
 };
 
-#endif  // ABSTRACTCOREINITIALIZER_H
+#endif  // ABSTRACTCOREINITIALIZER_H_

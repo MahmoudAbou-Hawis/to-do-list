@@ -1,7 +1,8 @@
 #include "coreinitializer.hpp"
 #include "dbFactory.hpp"
+#include "abstractedCommunicationadabter.hpp"
 
-CoreInitializer::CoreInitializer()
+CoreInitializer::CoreInitializer(std::shared_ptr<plugin_support::PluginCommunicatorWrapper> &&communicator) : mCommunicator(communicator)
 {
 }
 
@@ -21,4 +22,9 @@ void CoreInitializer::initDatabases()
 std::shared_ptr<TaskStorage> CoreInitializer::getTaskStorage() const
 {
     return mTasksStorage;
+}
+
+std::shared_ptr<AbstractedCommunicatorAdapter> CoreInitializer::getPluginAdapter() const
+{
+    return std::make_shared<PluginAdapter>(mCommunicator);
 }

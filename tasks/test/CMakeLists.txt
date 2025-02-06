@@ -47,9 +47,9 @@ target_include_directories(TaskSavingTest PRIVATE
     ${BERKELEYDB_INC}
 )
 
-target_link_libraries(TaskSavingTest PRIVATE
-    ${BERKELEYDB_LIB}/libdb_cxx.a      
-    ${BERKELEYDB_LIB}/libdb_stl.a      
-    GTest::GTest                       
-    GTest::Main                       
-)
+# target_link_libraries(TaskSavingTest PRIVATE
+#     ${BERKELEYDB_LIB}/libdb_cxx.a      
+#     ${BERKELEYDB_LIB}/libdb_stl.a      
+#     GTest::GTest                       
+#     GTest::Main                       
+# )
