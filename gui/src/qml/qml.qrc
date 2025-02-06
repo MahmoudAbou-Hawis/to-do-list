@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+    <file>../../../gui/src/qml/login.qml</file>
+        <file>../../../gui/src/qml/main.qml</file>
+        <file>../../../gui/src/qml/TaskInput/TaskInput.qml</file>
+        <file>../../../gui/src/qml/CheckBox/CheckBox.qml</file>
+        <file>../../../gui/src/qml/Button/AddButton.qml</file>
+        <file>../../../gui/src/assests/images/add.png</file>
+        <file>../../../gui/src/assests/images/approve.png</file>
+        <file>../../../gui/src/assests/images/tick.png</file>
+        <file>../../../gui/src/assests/images/background.jpeg</file>
+        <file>../../../gui/src/assests/images/google-calendar.png</file>
+        <file>../../../gui/src/assests/images/arrow-down.png</file>
+        <file>../../../gui/src/assests/images/arrow-up.png</file>
+        <file>../../../gui/src/qml/utils/checkDate.js</file>
+        <file>../../../gui/src/qml/utils/checkEmail.js</file>
+        <file>../../../gui/src/qml/utils/checkTime.js</file>
+        <file>../../../gui/src/qml/utils/getIso.js</file>
+    </qresource>
+</RCC>
