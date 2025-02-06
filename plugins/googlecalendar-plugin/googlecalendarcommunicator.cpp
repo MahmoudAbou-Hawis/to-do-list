@@ -7,6 +7,10 @@ GoogleCalenderCommunicator::GoogleCalenderCommunicator()
 {
 }
 
+GoogleCalenderCommunicator::~GoogleCalenderCommunicator()
+{
+}
+
 PluginApiErrorCodes GoogleCalenderCommunicator::add(const char *TaskName,
                                                     const char *description,
                                                     const char *starttime,
@@ -94,7 +98,7 @@ PluginApiErrorCodes GoogleCalenderCommunicator::connect() noexcept
     catch(const std::exception& e)
     {
         auto logger = spdlog::get("calendar_logger");
-        logger->warn("exeption in {} , connection Failed");
+        logger->warn("exeption in {} , connection Failed",e.what());
         return PluginApiErrorCodes::Disconected;
     }
     

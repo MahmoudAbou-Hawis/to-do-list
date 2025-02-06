@@ -12,9 +12,7 @@ nlohmann::json make_event(const Event &eventDetails)
     event["summary"]     = eventDetails.eventName;
     event["description"] = eventDetails.eventDescription;
     event["start"]["dateTime"] = eventDetails.startTime;
-    event["start"]["timeZone"] = "Africa/Cairo";
     event["end"]["dateTime"] = eventDetails.endTime;
-    event["end"]["timeZone"] = "Africa/Cairo";
     for (const auto& attendee : eventDetails.attendees) {
         event["attendees"].push_back({{"email", attendee}});
     }
@@ -26,7 +24,6 @@ nlohmann::json make_event(const Event &eventDetails)
 std::string CalendarApi::addEvent(const Event &event, const std::string &accessToken)
 {
     auto eventJson = make_event(event);
-    std::cout << eventJson;
     UriBuilder apibuilder(api);
     apibuilder.addPath("primary").addPath("events");
     auto [statuscode , response ] = mRequest.post(apibuilder.uri(),eventJson.dump(),

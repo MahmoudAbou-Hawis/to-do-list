@@ -2,6 +2,7 @@ project(googleCalender-plugin)
 
 find_package(nlohmann_json REQUIRED)
 find_package(spdlog REQUIRED)
+find_package(Boost REQUIRED)
 
 include( ${CMAKE_SOURCE_DIR}/secrets.txt)
 get_target_property(PLUGIN_API_SOURCE_DIR plugin-api SOURCE_DIR)
@@ -34,8 +35,8 @@ target_include_directories(googleCalendar-plugin PRIVATE ${CMAKE_CURRENT_SOURCE_
 
 target_link_libraries(googleCalendar-plugin PRIVATE plugin-api
                       curl-wrapper nlohmann_json::nlohmann_json
-                      spdlog::spdlog
-                      )
+                      spdlog::spdlog plugin-api curl-wrapper utils
+                      ${Boost_SYSTEM_LIBRARY})
 
 if(WIN32)
     target_link_libraries(googleCalendar-plugin PUBLIC intl)

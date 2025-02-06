@@ -73,8 +73,7 @@ CalendarOauth::CalendarOauth(std::string clientId, std::string clientSecret,
                              std::string redirectUri) : mClientId(std::move(clientId)),
                                                         mClientSecret(std::move(clientSecret)), mRedirectUri(std::move(redirectUri))
 {
-      spdlog::rotating_logger_mt("calendar_logger", "calendar_logger", 1048576 * 5,
-                             3);
+ 
 }
 CalendarOauth::CalendarOauth(std::string clientId, std::string clientSecret,
                              std::string redirectUri, std::string refreshToken) : mClientId(std::move(clientId)), mClientSecret(std::move(clientSecret)),
@@ -186,4 +185,5 @@ void CalendarOauth::authenticate()
     std::system(command.c_str());
     std::string response = getGoogleAouthRespose(std::move(soc),std::move(acc));
     mAuthenticateCode = getAouthCode(response);
+    accessToken();
 }

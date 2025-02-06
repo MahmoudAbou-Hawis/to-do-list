@@ -9,7 +9,7 @@
 GoogleCalendarFacade::GoogleCalendarFacade() : 
                         mGoogleAddressValidator(std::make_unique<GoogleAddressValidator>())
 {
-      spdlog::rotating_logger_mt("calendar_logger", "googlecalendar-plugin.log", 1048576 * 5,
+    spdlog::rotating_logger_mt("calendar_logger", "googlecalendar-plugin.log", 1048576 * 5,
                              3);
 }
 
